@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+ADOBE SYSTEMS INCORPORATED
+Copyright 2008 Adobe Systems Incorporated
+All Rights Reserved.
+
+NOTICE: Adobe permits you to use, modify, and distribute this file
+in accordance with the terms of the license agreement accompanying it.
+
+-->
+<!--
+Modified by Anirudh:
+-->
+<!--
+/*
+* The contents of this file are subject to the Mozilla Public License Version
+* 1.1 (the "License"); you may not use this file except in compliance with
+* the License. You may obtain a copy of the License at
+* http://www.mozilla.org/MPL/
+*
+* Software distributed under the License is distributed on an "AS IS" basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+* for the specific language governing rights and limitations under the
+* License.
+*
+* The Original Code is the ScopedNavigation component.
+*
+* The Initial Developer of the Original Code is
+* Anirudh Sasikumar (http://anirudhs.chaosnet.org/).
+* Portions created by the Initial Developer are Copyright (C) 2008
+* the Initial Developer. All Rights Reserved.
+*
+* Contributor(s):
+*
+*/
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+			 alpha.disabled="0.5" blendMode="normal">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		/** 
+		* @copy spark.skins.spark.ApplicationSkin#hostComponent
+		*/
+		[HostComponent("net.anirudh.controls.NavTextInputItem")]
+		]]>
+	</fx:Metadata> 
+	
+	<fx:Script>
+		private var paddingChanged:Boolean;
+		
+		/* Define the skin elements that should not be colorized. */
+		static private const exclusions:Array = ["background", "textDisplay"];
+		
+		/** 
+		 * @copy spark.skins.SparkSkin#colorizeExclusions
+		 */     
+		override public function get colorizeExclusions():Array {return exclusions;}
+		
+		/* Define the content fill items that should be colored by the "contentBackgroundColor" style. */
+		static private const contentFill:Array = ["bgFill"];
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function get contentItems():Array {return contentFill};
+		
+		/**
+		 *  @private
+		 */
+		override protected function commitProperties():void
+		{
+			super.commitProperties();
+			
+			if (paddingChanged)
+			{
+				updatePadding();
+				paddingChanged = false;
+			}
+		}
+		
+		/**
+		 *  @private
+		 */
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+		{
+			if (getStyle("borderVisible") == true)
+			{
+				border.visible = true;
+				shadow.visible = true;
+				background.left = background.top = background.right = background.bottom = 1;
+				//textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 1;
+			}
+			else
+			{
+				border.visible = false;
+				shadow.visible = false;
+				background.left = background.top = background.right = background.bottom = 0;
+				//textDisplay.left = textDisplay.top = textDisplay.right = textDisplay.bottom = 0;
+			}
+			
+			super.updateDisplayList(unscaledWidth, unscaledHeight);
+		}
+		
+		/**
+		 *  @private
+		 */
+		private function updatePadding():void
+		{
+			if (!textDisplay)
+				return;
+			
+			// Push padding styles into the textDisplay
+			var padding:Number;
+			
+			padding = getStyle("paddingLeft");
+			if (textDisplay.getStyle("paddingLeft") != padding)
+				textDisplay.setStyle("paddingLeft", padding);
+			
+			padding = getStyle("paddingTop");
+			if (textDisplay.getStyle("paddingTop") != padding)
+				textDisplay.setStyle("paddingTop", padding);
+			
+			padding = getStyle("paddingRight");
+			if (textDisplay.getStyle("paddingRight") != padding)
+				textDisplay.setStyle("paddingRight", padding);
+			
+			padding = getStyle("paddingBottom");
+			if (textDisplay.getStyle("paddingBottom") != padding)
+				textDisplay.setStyle("paddingBottom", padding);
+		}
+		
+		/**
+		 *  @private
+		 */
+		override public function styleChanged(styleProp:String):void
+		{
+			super.styleChanged(styleProp);
+			
+			if (!styleProp || styleProp.indexOf("padding") == 0)
+			{
+				paddingChanged = true;
+				invalidateProperties();
+			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function get focusSkinExclusions():Array { return [ textDisplay ] };
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="disabled"/>
+	</s:states>
+	
+	<!-- border --> 
+	<s:Rect left="0" right="0" top="0" bottom="0" id="border" radiusX="5" radiusY="7">
+		<s:stroke>     
+			<s:SolidColorStroke color="{getStyle('borderColor')}" 
+								alpha="{getStyle('borderAlpha')}" 
+								weight="1" />
+		</s:stroke>
+	</s:Rect>
+	
+	<!-- fill -->
+	<!--- Defines the appearance of the TextInput component's background. -->
+	<s:Rect id="background" left="1" right="1" top="1" bottom="1" radiusX="5" radiusY="7">
+		<s:fill>
+			<!--- Defines the background fill color. -->
+			<s:SolidColor id="bgFill" color="0xFFFFFF" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- shadow -->
+	<s:Rect left="1" top="1" right="1" height="1" id="shadow" radiusX="5" radiusY="7">
+		<s:fill>
+			<s:SolidColor color="0x000000" alpha="0.12" />
+		</s:fill>
+	</s:Rect>
+	
+	<!-- text -->
+	<s:RichEditableText id="textDisplay"
+						lineBreak="explicit"
+						verticalAlign="middle"
+						widthInChars="10"
+						rollOut="Mouse.cursor = MouseCursor.AUTO"
+						right="25"
+						left="1" top="1" bottom="1" />
+	
+
+	<!-- dotted line -->
+	
+	<s:Path right="20" top="2" bottom="2" data="M 0 0 L 0 1 Z M 0 2 L 0 3 Z M 0 4 L 0 5 Z M 0 6 L 0 7 Z M 0 8 L 0 9 Z M 0 10 L 0 11 Z">
+		<s:stroke>
+			<s:SolidColorStroke color="{getStyle('searchDottedLineColor')}" weight="1" caps="round" 
+								scaleMode="none"
+								joints="round"/>
+		</s:stroke>
+	</s:Path>
+	
+	<!-- magnifying glass -->
+	<s:Group buttonMode="true" mouseChildren="false" right="0" top="0" bottom="0" click="if ( hostComponent ) hostComponent.dispatchSearchEvent()">
+		<s:Ellipse right="7" width="6" height="7" top="5">
+			<s:stroke>
+				<s:SolidColorStroke color="{getStyle('magnifyGlassColor')}"  weight="2" />
+			</s:stroke>
+		</s:Ellipse>
+		
+		<s:Line  right="5" top="12" xFrom="0" xTo="2" yFrom="2" yTo="4" >
+			<s:stroke>
+				<s:SolidColorStroke color="{getStyle('magnifyGlassColor')}" weight="2" />
+			</s:stroke>
+		</s:Line>
+		<!-- for mouse over to work on non drawn regions -->
+		<s:Rect width="20" top="0" right="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="0x000000" alpha="0" />
+			</s:fill>
+		</s:Rect>
+	</s:Group>
+</s:SparkSkin>

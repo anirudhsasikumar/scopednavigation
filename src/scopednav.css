@@ -1,0 +1,89 @@
+/*
+* The contents of this file are subject to the Mozilla Public License Version
+* 1.1 (the "License"); you may not use this file except in compliance with
+* the License. You may obtain a copy of the License at
+* http://www.mozilla.org/MPL/
+*
+* Software distributed under the License is distributed on an "AS IS" basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+* for the specific language governing rights and limitations under the
+* License.
+*
+* The Original Code is the ScopedNavigation component.
+*
+* The Initial Developer of the Original Code is
+* Anirudh Sasikumar (http://anirudhs.chaosnet.org/).
+* Portions created by the Initial Developer are Copyright (C) 2008
+* the Initial Developer. All Rights Reserved.
+*
+* Contributor(s):
+*
+*/
+	
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/halo";
+@namespace container "net.anirudh.container.*";
+@namespace controls "net.anirudh.controls.*";
+
+global
+{
+	color: #ffffff;
+	fontFamily: Verdana;
+	fontSize: 11;
+}
+
+container|NavContainer s|Label#brandLabel
+{	
+	fontSize:18;
+	color: #FFFFFF;
+}
+
+container|NavContainer
+{
+	brandFill: #9FC54E;
+	/* Ideally, navFill should match controls|ScopedDropDown contentBackgroundColor */
+	navFill: #172322;
+}
+
+controls|NavLabelItem
+{
+	color: #FFFFFF;
+}
+
+controls|NavLabelItem:hovered
+{
+	color: #B0D730;
+}
+
+controls|NavMenuItem
+{
+	color: #0395CC;
+	separatorColor: #474747;	
+}
+
+controls|NavMenuItem:hovered
+{
+	color: #7FCDFE;
+}
+
+controls|NavMenuItem:selected
+{
+	color: #E53D2C;
+}
+
+/* Set eraseColor to the application background color 
+   (or whatever color that is behind the nav bar) */ 
+controls|ScopedDropDown
+{
+	/* eraseColor should match app background color */
+	eraseColor: #86C9EF;
+	/* Ideally, contentBackgroundColor should match container|NavContainer navFill */
+	contentBackgroundColor: #172322;	
+}
+
+controls|NavTextInputItem
+{
+	searchDottedLineColor: #969696;
+	magnifyGlassColor: #717171;
+	color: #969696;
+}

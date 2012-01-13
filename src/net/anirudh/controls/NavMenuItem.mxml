@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/halo"	
+				autoDrawBackground="false"
+				xmlns:drawing="com.warmforestflash.drawing.*">
+	<!--
+	/*
+	* The contents of this file are subject to the Mozilla Public License Version
+	* 1.1 (the "License"); you may not use this file except in compliance with
+	* the License. You may obtain a copy of the License at
+	* http://www.mozilla.org/MPL/
+	*
+	* Software distributed under the License is distributed on an "AS IS" basis,
+	* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+	* for the specific language governing rights and limitations under the
+	* License.
+	*
+	* The Original Code is the ScopedNavigation component.
+	*
+	* The Initial Developer of the Original Code is
+	* Anirudh Sasikumar (http://anirudhs.chaosnet.org/).
+	* Portions created by the Initial Developer are Copyright (C) 2008
+	* the Initial Developer. All Rights Reserved.
+	*
+	* Contributor(s):
+	*
+	*/
+	-->
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="selected" />
+	</s:states>
+	
+	<s:Rect left="0" top="0" right="0" bottom="0">
+		<s:fill>
+			<s:SolidColor alpha="0" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:Label  
+		text="{data}"			
+		verticalCenter="0"
+		paddingBottom="5"
+		paddingLeft="2"
+		paddingRight="2"
+		/>
+	
+	<drawing:DottedLine 
+		id="separator"
+		bottom="0" 
+		color="{getStyle('separatorColor')}"
+		left="0" right="0" height="1"/>
+</s:ItemRenderer>

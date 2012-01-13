@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:container="net.anirudh.container.*"
+			   backgroundColor="0x86C9EF"
+			   preloaderChromeColor="0x172322"
+			   xmlns:controls="net.anirudh.controls.*" xmlns:drawing="com.warmforestflash.drawing.*">
+	<!--
+	/*
+	* The contents of this file are subject to the Mozilla Public License Version
+	* 1.1 (the "License"); you may not use this file except in compliance with
+	* the License. You may obtain a copy of the License at
+	* http://www.mozilla.org/MPL/
+	*
+	* Software distributed under the License is distributed on an "AS IS" basis,
+	* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+	* for the specific language governing rights and limitations under the
+	* License.
+	*
+	* The Original Code is the ScopedNavigation component.
+	*
+	* The Initial Developer of the Original Code is
+	* Anirudh Sasikumar (http://anirudhs.chaosnet.org/).
+	* Portions created by the Initial Developer are Copyright (C) 2008
+	* the Initial Developer. All Rights Reserved.
+	*
+	* Contributor(s):
+	*
+	*/
+	-->
+	<fx:Style source="scopednav.css" />
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayList;
+			import mx.collections.ICollectionView;
+			import mx.collections.IList;
+
+			
+			
+			[Bindable]
+			private var searchCategories:ArrayList = new ArrayList(["Search Videos", 
+				"Search People",
+				"Search Groups",
+				"Search Channels",
+				"Search Forums",
+															]);
+			
+			
+			private var popupData1:ArrayList = new ArrayList(["Categories", 
+				"Groups",
+				"Channels",
+				"HD Videos",
+				"Staff Picks",
+				"Projects",
+				"Toys"
+			]);
+			
+			private var popupData2:ArrayList = new ArrayList(["Help Center", 
+				"Vimeo Basics",
+				"Community Guidelines",
+				"Community Forums",
+				"Developers"				
+			]);
+			[Bindable]
+			private var navData:ArrayList = new ArrayList([{label: "Log In"}, 
+				{label: "Explore", menu: popupData1},
+				{label: "Help", menu: popupData2}
+			]);
+			
+			// Functions for changing colors at runtime. Not needed when using the component
+		
+			private function changeNavFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.container.NavContainer').setStyle('navFill', navfill.selectedColor);
+			}
+			
+			private function changeBrandFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.container.NavContainer').setStyle('brandFill', brandfill.selectedColor);
+			}
+			
+			private function changeBackFill():void
+			{
+				this.setStyle('backgroundColor', backfill.selectedColor);
+				StyleManager.getStyleDeclaration('net.anirudh.controls.ScopedDropDown').setStyle('eraseColor', backfill.selectedColor);
+			}
+			
+			private function changeLabelFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavLabelItem').setStyle('color', labelfill.selectedColor);
+			}
+			
+			private function changeLabelOverFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavLabelItem:hovered').setStyle('color', labeloverfill.selectedColor);
+			}
+			
+			private function changeMenuFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.ScopedDropDown').setStyle('contentBackgroundColor', menufill.selectedColor);
+			}
+			
+			private function changeItemFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavMenuItem').setStyle('color', itemfill.selectedColor);
+				
+			}
+			
+			private function changeOverItemFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavMenuItem:hovered').setStyle('color', overitemfill.selectedColor);
+				
+			}
+			
+			private function changeSelItemFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavMenuItem:selected').setStyle('color', selitemfill.selectedColor);
+				
+			}
+			
+			private function changeSearchFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavTextInputItem').setStyle('color', searchtextfill.selectedColor);				
+			}
+			
+			private function changeSearchLineFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavTextInputItem').setStyle('searchDottedLineColor', searchlinefill.selectedColor);
+				
+			}
+			
+			private function changeSearchMagFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavTextInputItem').setStyle('magnifyGlassColor', searchmagfill.selectedColor);				
+			}
+			
+			private function changeMenuSepFill():void
+			{
+				StyleManager.getStyleDeclaration('net.anirudh.controls.NavMenuItem').setStyle('separatorColor', menusepfill.selectedColor);				
+			}
+			
+			[Bindable]
+			private var colorsForPicking:ICollectionView;
+			
+			private function augmentColors():void
+			{			
+				navfill.dataProvider.addItem(0x172322);
+				navfill.dataProvider.addItem(0x9FC54E);
+				navfill.dataProvider.addItem(0xE53D2C);
+				navfill.dataProvider.addItem(0x0395CC);
+				navfill.dataProvider.addItem(0x7FCDFE);
+				navfill.dataProvider.addItem(0xB0D730);
+				navfill.dataProvider.addItem(0x969696);
+				navfill.dataProvider.addItem(0x86C9EF);
+				navfill.dataProvider.addItem(0x474747);
+				colorsForPicking = navfill.dataProvider as ICollectionView;	
+			}
+
+
+		]]>
+	</fx:Script>
+	<!-- to change style of brand label, see scopednav.css -->
+	<!-- to add a brand image rather than text, change NavContainerSkin -->
+	<controls:MainNavigation 
+		top="0" right="150" 							 
+		brand="navbar"
+		dataProvider="{navData}"
+		searchDataProvider="{searchCategories}"
+		search="eventText.text = 'Search event fired - ' + event.searchText + ' index:' + event.selectedIndex + ' item:' + event.selectedItem"
+		navselect="eventText.text = 'Select event fired - index:' + event.selectedIndex + ' item:' + event.selectedItem"
+		/>
+		
+	<!-- Controls below are for demo purposes. Not needed when using the navbar component. -->
+	<s:Rect top="80" left="150" right="150" bottom="80" radiusX="18" radiusY="20">
+		<s:fill>
+			<s:SolidColor color="0xFFFFFF" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:Label top="100" left="180" right="180" bottom="110"
+			 color="0x000000"
+			 fontSize="18"
+			 fontWeight="bold"
+			 text="Flex 4 Component: Navigation Bar, Vimeo Style"
+			 />
+	
+	<drawing:DottedLine top="130" height="1" left="175" right="175" alpha="1" color="0x242424"/>
+	
+	<s:Label text="NavBar is a Flex 4 data-driven navigation component that looks like the Vimeo navigation bar featuring popup menus and scoped search. Its colors are completely customizable since no assets are used (even the magnifying glass is drawn). Events are dispatched on search or select. Search is scoped to a category that can be selected while mouse is over the text input." 
+			 color="0x444444" top="145" left="185" 
+			width="300"
+			 fontSize="12"
+			 textAlign="justify"
+			
+			 />
+	
+	<s:Label text="Usage:" color="0x444444" top="145" left="515" 
+			 fontSize="16"			 
+			 />
+	<s:Scroller top="160" left="520" 
+				right="185"
+				height="200">
+		
+	
+	<s:RichEditableText	
+		editable="false"
+			 color="0x444444" 
+			 fontSize="12"
+			 fontFamily="Consolas, Monospace"
+			 clipAndEnableScrolling="true"
+			 >
+		<s:text><![CDATA[
+<!-- to change style of brand label, see scopednav.css -->
+<!-- to add a brand image rather than text, change NavContainerSkin -->
+<controls:MainNavigation top="0" right="150" 							 
+  brand="foobar"
+  dataProvider="{navData}"
+  searchDataProvider="{searchCategories}"
+  search="trace('searching for ' + event.searchText+' in '+event.selectedItem)"
+  navselect="trace('selected ' + event.selectedItem)"
+  />
+			]]>
+		</s:text>
+		</s:RichEditableText>
+	</s:Scroller>
+	<s:Label text="Try Changing Colors:" color="0x444444" top="360" left="185" 
+			 fontSize="16"			 
+			 />
+	<s:Group  top="390" left="185" right="180" color="0x000000">
+		<s:layout><s:TileLayout requestedColumnCount="3" rowAlign="justifyUsingHeight" columnAlign="left"/></s:layout>
+		<s:HGroup gap="10" verticalAlign="middle">
+			<s:Label text="Nav fill:" />		
+			<mx:ColorPicker id="navfill" 
+							change="changeNavFill()"
+							creationComplete="augmentColors()"
+							selectedColor="0x172322"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Brand fill:"	/>	
+				<mx:ColorPicker id="brandfill" 
+								change="changeBrandFill()"
+								dataProvider="{colorsForPicking}"
+								selectedColor="0x9FC54E"
+								/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="App Background:"	/>	
+			<mx:ColorPicker id="backfill" 
+							change="changeBackFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x86C9EF"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Label:"	/>	
+			<mx:ColorPicker id="labelfill" 
+							change="changeLabelFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0xFFFFFF"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Label Over:"	/>	
+			<mx:ColorPicker id="labeloverfill" 
+							change="changeLabelOverFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0xB0D730"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Menu fill:"	/>	
+			<mx:ColorPicker id="menufill" 
+							change="changeMenuFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x172322"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Menu item:"	/>	
+			<mx:ColorPicker id="itemfill" 
+							change="changeItemFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x0395CC"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Menu over item:"	/>	
+			<mx:ColorPicker id="overitemfill" 
+							change="changeOverItemFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x7FCDFE"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Menu selected item:"	/>	
+			<mx:ColorPicker id="selitemfill" 
+							change="changeSelItemFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0xE53D2C"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Menu separator:"	/>	
+			<mx:ColorPicker id="menusepfill" 
+							change="changeMenuSepFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x474747"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Search Text:"	/>	
+			<mx:ColorPicker id="searchtextfill" 
+							change="changeSearchFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x969696"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Search Dotted Line:"	/>	
+			<mx:ColorPicker id="searchlinefill" 
+							change="changeSearchLineFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x969696"
+							/>
+		</s:HGroup>
+		<s:HGroup gap="10">
+			<s:Label text="Search Magnify Glass:"	/>	
+			<mx:ColorPicker id="searchmagfill" 
+							change="changeSearchMagFill()"
+							dataProvider="{colorsForPicking}"
+							selectedColor="0x717171"
+							/>
+		</s:HGroup>
+	</s:Group>
+	<s:RichText left="190" right="190" bottom="85" id="eventText" color="0x000000" />
+</s:Application>

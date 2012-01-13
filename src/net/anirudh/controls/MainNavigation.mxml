@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"  
+		 xmlns:container="net.anirudh.container.*" xmlns:controls="net.anirudh.controls.*">
+	<!--
+	/*
+	* The contents of this file are subject to the Mozilla Public License Version
+	* 1.1 (the "License"); you may not use this file except in compliance with
+	* the License. You may obtain a copy of the License at
+	* http://www.mozilla.org/MPL/
+	*
+	* Software distributed under the License is distributed on an "AS IS" basis,
+	* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+	* for the specific language governing rights and limitations under the
+	* License.
+	*
+	* The Original Code is the ScopedNavigation component.
+	*
+	* The Initial Developer of the Original Code is
+	* Anirudh Sasikumar (http://anirudhs.chaosnet.org/).
+	* Portions created by the Initial Developer are Copyright (C) 2008
+	* the Initial Developer. All Rights Reserved.
+	*
+	* Contributor(s):
+	*
+	*/
+	-->
+	<fx:Metadata>
+		[Event(name="search", type="net.anirudh.events.SelectSearchEvent")]
+		[Event(name="navselect", type="net.anirudh.events.SelectSearchEvent")]	
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			
+			import net.anirudh.events.SelectSearchEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable]
+			public var dataProvider:IList;
+			
+			[Bindable]
+			public var searchDataProvider:IList;
+			
+			[Bindable]
+			public var brand:String;
+			
+			public function dispatchSearchSelectEvent(searchString:String, selectEvent:Boolean=false):void
+			{				
+				var selIndex:int = -1;
+				var selItem:* = null;
+				if ( container && dropdown )
+				{
+					selIndex = dropdown.selectedIndex;
+					selItem = dropdown.selectedItem;
+				}
+				if ( selIndex == -1 && selectEvent )
+					return;
+				this.dispatchEvent(new SelectSearchEvent(selectEvent ? SelectSearchEvent.SELECT : SelectSearchEvent.SEARCH, false, false, searchString, selIndex, selItem));
+			}
+			
+			public function dispatchTopSelectEvent(selIndex:int, selItem:*):void
+			{							
+				this.dispatchEvent(new SelectSearchEvent(SelectSearchEvent.SELECT, false, false, "", selIndex, selItem));
+			}
+			
+
+			protected function dropdown_changeHandler(event:IndexChangeEvent):void
+			{
+				if ( dropdown.dataProvider != searchDataProvider )
+				{
+					dispatchSearchSelectEvent("", true);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<container:NavContainer
+		id="container"
+		skinClass="net.anirudh.skins.NavContainerSkin"
+		top="0" left="0"
+		height="50"
+		dropdown="{dropdown}"
+		brand="{brand}"
+		>
+		<s:DataGroup id="subdataGroup" 
+					 dataProvider="{dataProvider}"
+					 itemRenderer="net.anirudh.controls.NavLabelItem"
+					 
+					 >
+			<s:layout><s:HorizontalLayout gap="0" /></s:layout>
+			
+		</s:DataGroup>
+		<mx:Spacer width="20" />
+		<controls:NavTextInputItem 
+			menu="{searchDataProvider}"
+			text="Search Videos" />
+	</container:NavContainer>
+	<controls:ScopedDropDown 
+		id="dropdown"		
+		borderVisible="false"		
+		itemRenderer="net.anirudh.controls.NavMenuItem"
+		top="50" 
+		skinClass="net.anirudh.skins.NavDropdownSkin"
+		change="dropdown_changeHandler(event)"
+		/>
+</s:Group>
