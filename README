@@ -1,10 +1,8 @@
-I came across this great post by Theresa Neil: 30 essential controls
-for RIA design. I liked control twenty-three in particular: Scoped
-Search. So I cooked up a Flex 4 navigation bar (vimeo style) that has
-scoped search and is completely data-driven and customizable via CSS.
-It does not use any images; everything is drawn. Along the way, I
-built some potentially re-usable things like a dotted line graphic
-element and a vertical separator layout.
+A Flex 4 navigation bar (vimeo style) that has scoped search and is
+completely data-driven and customizable via CSS. It does not use any
+images; everything is drawn. Along the way, I built some potentially
+re-usable things like a dotted line graphic element and a vertical
+separator layout.
 
 Live demo: http://anirudhsasikumar.net/examples/scopedsearch/
 
